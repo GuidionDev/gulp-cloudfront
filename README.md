@@ -1,4 +1,4 @@
-# [gulp](https://github.com/wearefractal/gulp)-cloudfront [![Build Status](https://travis-ci.org/smysnk/gulp-cloudfront.png?branch=master)](https://travis-ci.org/smysnk/gulp-cloudfront)
+# [![CircleCI](https://circleci.com/gh/GuidionDev/gulp-cloudfront/tree/master.svg?style=svg)](https://circleci.com/gh/GuidionDev/gulp-cloudfront/tree/master)
 
 > Updates the Default Root Object of a CloudFront distribution
 
@@ -11,9 +11,9 @@ In the case of CloudFront, you will need to invalidate items or wait for the cac
 A solution to this problem is adding a revisioned suffix to the filename for each static asset.  The gulp plugin [gulp-rev-all](https://github.com/smysnk/gulp-rev-all) can assist in this process.  eg. unicorn.css => unicorn-098f6bcd.css
 You can then use [gulp-s3](https://github.com/nkostelnik/gulp-s3) to upload the revisioned files to a S3 bucket which CloudFront points to.
 
-**Finally gulp-cloudfront comes in during the final step, to update a CloudFront distributions' [Default Root Object](http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DefaultRootObject.html) to the latest revisioned index.html.**  
+**Finally gulp-cloudfront comes in during the final step, to update a CloudFront distributions' [Default Root Object](http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DefaultRootObject.html) to the latest revisioned index.html.**
 Updating the Default Root Object only takes 5-10 minutes and all new visitors to your website will no longer see the old cached content.
-A much better solution than waiting for cached items to expire or invalidating individual files which costs $$. 
+A much better solution than waiting for cached items to expire or invalidating individual files which costs $$.
 
 You can in essence host multiple versions of your website under the same static host and if you need to revert to an older version you need only change the index.html file.
 
