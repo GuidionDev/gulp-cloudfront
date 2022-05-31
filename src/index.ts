@@ -1,15 +1,15 @@
-var gutil = require('gulp-util');
-var through = require('through2');
-var toolFactory = require('./tool');
+import gutil from 'gulp-util';
+import through from 'through2';
 
-module.exports = function(options) {
-  options = options || {};
+import { CloudfrontToolConfig } from './interface';
+import cloundfrontToolFactory from './cloudfront-tool';
+
+const handler = (options: CloudfrontToolConfig) => {
   options.patternIndex = options.patternIndex || /^\/index\.[a-f0-9]{8}\.html(\.gz)*$/gi;
-  var tool = options.tool || toolFactory(options);
-  var first = true;
+  const tool = options.tool || cloundfrontToolFactory(options);
+  let first = true;
 
-  return through.obj(function (file, enc, callback) {
-
+  return through.obj((file, enc, callback) => {
     if (first) {
       options.dirRoot = options.dirRoot || file.base.replace(/\/$/, '');
       gutil.log('gulp-cloudfront:', 'Root directory [', options.dirRoot, ']');
@@ -17,9 +17,9 @@ module.exports = function(options) {
     }
 
     // Update the default root object once we've found the index.html file
-    var filename = file.path.substr(options.dirRoot.length);
-    if (filename.match(options.patternIndex)) {
+    let filename = file.path.substr(options.dirRoot.length);
 
+    if (filename.match(options.patternIndex)) {
       gutil.log('gulp-cloudfront:', 'Identified index [', filename, ']');
 
       // Trim the '.gz' if gzipped
@@ -28,19 +28,16 @@ module.exports = function(options) {
       }
 
       tool.updateDefaultRootObject(filename)
-        .then(function() {
+        .then(() => {
           return callback(null, file);
-        }, function(err) {
+        }, (err) => {
           gutil.log(new gutil.PluginError('gulp-cloudfront', err));
           callback(null, file);
-
         });
-
     } else {
       return callback(null, file);
     }
-
   });
-
-
 };
+
+export default handler;
