@@ -26,7 +26,7 @@ This plugin will identify the index.html file based on the default or configured
 Install with [npm](https://npmjs.org)
 
 ```
-npm install --save-dev gulp-cloudfront
+npm install --save-dev @gdn/gulp-cloudfront
 ```
 
 ## Example
@@ -35,7 +35,7 @@ npm install --save-dev gulp-cloudfront
 var gulp = require('gulp');
 var revall = require('gulp-rev-all');
 var awspublish = require('gulp-awspublish');
-var cloudfront = require("gulp-cloudfront");
+var cloudfront = require("@gdn/gulp-cloudfront");
 
 var aws = {
     "key": "AKIAI3Z7CUAFHG53DMJA",
