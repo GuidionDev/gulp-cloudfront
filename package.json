@@ -43,7 +43,7 @@
     "cloudfront",
     "cdn"
   ],
-  "homepage": "https://github.com/smysnk/gulp-cloudfront",
+  "homepage": "https://github.com/GuidionDev/gulp-cloudfront",
   "author": "Joshua Bellamy-Henn <smysnk@gmail.com>",
   "license": "MIT",
   "bugs": {
