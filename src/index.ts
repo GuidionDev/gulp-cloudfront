@@ -1,5 +1,6 @@
-import gutil from 'gulp-util';
 import through from 'through2';
+import log from 'fancy-log';
+import PluginError from 'plugin-error';
 
 import { CloudfrontToolConfig } from './interface';
 import cloundfrontToolFactory from './cloudfront-tool';
@@ -12,7 +13,7 @@ const handler = (options: CloudfrontToolConfig) => {
   return through.obj((file, enc, callback) => {
     if (first) {
       options.dirRoot = options.dirRoot || file.base.replace(/\/$/, '');
-      gutil.log('gulp-cloudfront:', 'Root directory [', options.dirRoot, ']');
+      log('gulp-cloudfront:', 'Root directory [', options.dirRoot, ']');
       first = !first;
     }
 
@@ -20,7 +21,7 @@ const handler = (options: CloudfrontToolConfig) => {
     let filename = file.path.substr(options.dirRoot.length);
 
     if (filename.match(options.patternIndex)) {
-      gutil.log('gulp-cloudfront:', 'Identified index [', filename, ']');
+      log('gulp-cloudfront:', 'Identified index [', filename, ']');
 
       // Trim the '.gz' if gzipped
       if (filename.substr(filename.length - 3) === '.gz') {
@@ -31,7 +32,7 @@ const handler = (options: CloudfrontToolConfig) => {
         .then(() => {
           return callback(null, file);
         }, (err) => {
-          gutil.log(new gutil.PluginError('gulp-cloudfront', err));
+          log(new PluginError('gulp-cloudfront', err));
           callback(null, file);
         });
     } else {

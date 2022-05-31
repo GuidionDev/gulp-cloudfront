@@ -1,5 +1,5 @@
-import gutil from 'gulp-util';
 import AWS from 'aws-sdk';
+import log from 'fancy-log';
 
 import { CloudfrontTool, CloudfrontToolConfig } from './interface';
 
@@ -23,7 +23,7 @@ const tool: (options: CloudfrontToolConfig) => CloudfrontTool = (options) => {
           const defaultRootObjectNoSlash = defaultRootObject.substring(1);
 
           if (DistributionConfig.DefaultRootObject === defaultRootObjectNoSlash) {
-            gutil.log('gulp-cloudfront:', "DefaultRootObject hasn't changed, not updating.");
+            log('gulp-cloudfront:', "DefaultRootObject hasn't changed, not updating.");
             return resolve(undefined);
           }
 
@@ -37,7 +37,7 @@ const tool: (options: CloudfrontToolConfig) => CloudfrontTool = (options) => {
             if (err) {
               reject(err);
             } else {
-              gutil.log('gulp-cloudfront:', 'DefaultRootObject updated to [' + defaultRootObjectNoSlash + '].');
+              log('gulp-cloudfront:', 'DefaultRootObject updated to [' + defaultRootObjectNoSlash + '].');
               resolve(undefined);
             }
           });

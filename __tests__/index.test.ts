@@ -1,13 +1,15 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import glob from 'glob';
-import gutils, { File } from 'gulp-util';
+import File from 'vinyl';
+import log from 'fancy-log';
 
 import cloundfront from '../src/index';
 import cloudfrontToolFactory from '../src/cloudfront-tool';
 import { CloudfrontTool, CloudfrontToolConfig } from '../src/interface';
 
 jest.mock('../src/cloudfront-tool');
+jest.mock('fancy-log');
 
 describe('gulp-cloudfront', function () {
   let stream;
@@ -112,7 +114,6 @@ describe('gulp-cloudfront', function () {
   });
 
   it('should log error when failed', function(done) {
-    const logSpy = jest.spyOn(gutils, 'log');
     const mockUpdateDefaultRootObject = jest.fn().mockRejectedValue(new Error('cannot update'));
     (cloudfrontToolFactory as jest.Mock).mockImplementation(() => ({
       updateDefaultRootObject: mockUpdateDefaultRootObject,
@@ -130,7 +131,7 @@ describe('gulp-cloudfront', function () {
       // none
     });
     stream.on('end', function () {
-      expect(logSpy).toBeCalledWith(expect.any(Error));
+      expect(log).toBeCalledWith(expect.any(Error));
       done();
     });
 

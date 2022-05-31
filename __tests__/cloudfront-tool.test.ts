@@ -1,10 +1,10 @@
-import gutil from 'gulp-util';
 import AWS from 'aws-sdk';
+import log from 'fancy-log';
 
 import cloudfrontToolFactory from '../src/cloudfront-tool';
 
 jest.mock('aws-sdk');
-jest.mock('gulp-util');
+jest.mock('fancy-log');
 
 describe('cloudfront-tool', () => {
   let mockCloudfront: any;
@@ -77,7 +77,7 @@ describe('cloudfront-tool', () => {
 
     await tool.updateDefaultRootObject('/index-123.html');
 
-    expect(gutil.log).toBeCalledWith('gulp-cloudfront:', "DefaultRootObject hasn't changed, not updating.");
+    expect(log).toBeCalledWith('gulp-cloudfront:', "DefaultRootObject hasn't changed, not updating.");
     expect(mockCloudfront.updateDistribution).not.toBeCalled();
   });
 
